@@ -23,7 +23,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.example.android.dagger.MyApplication
 import com.example.android.dagger.R
 import com.example.android.dagger.registration.RegistrationActivity
 import com.example.android.dagger.registration.RegistrationViewModel
@@ -36,7 +35,7 @@ class TermsAndConditionsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (activity!!.application as MyApplication).appComponent.registrationComponent().create().inject(this)
+        (requireActivity() as RegistrationActivity).registrationComponent.inject(this)
 
     }
 
