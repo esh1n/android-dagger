@@ -36,8 +36,8 @@ class TermsAndConditionsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        (activity!!.application as MyApplication).appComponent.registrationComponent().create().inject(this)
 
-        (activity!!.application as MyApplication).appComponent.inject(this)
     }
 
     override fun onCreateView(
