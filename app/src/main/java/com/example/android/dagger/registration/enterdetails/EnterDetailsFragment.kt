@@ -27,7 +27,10 @@ import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.android.dagger.R
+import com.example.android.dagger.registration.EnterDetailsComponent
 import com.example.android.dagger.registration.RegistrationActivity
 import com.example.android.dagger.registration.RegistrationViewModel
 import javax.inject.Inject
@@ -45,21 +48,27 @@ class EnterDetailsFragment : Fragment() {
      *
      * @Inject annotated fields will be provided by Dagger
      */
-    @Inject
     lateinit var registrationViewModel: RegistrationViewModel
 
+    private lateinit var viewModel: EnterDetailsViewModel
+
     @Inject
-    lateinit var enterDetailsViewModel: EnterDetailsViewModel
+    lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var errorTextView: TextView
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
 
+    private lateinit var enterDetailsComponent: EnterDetailsComponent
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         // Grabs the registrationComponent from the Activity and injects this Fragment
-        (activity as RegistrationActivity).registrationComponent.inject(this)
+        enterDetailsComponent =(activity as RegistrationActivity).registrationComponent.enterDetailsComponent().create()
+        enterDetailsComponent.inject(this)
+        viewModel = ViewModelProviders.of(this, factory).get(EnterDetailsViewModel::class.java)
+        registrationViewModel = ViewModelProviders.of(this, factory).get(RegistrationViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -69,7 +78,7 @@ class EnterDetailsFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_enter_details, container, false)
 
-        enterDetailsViewModel.enterDetailsState.observe(this,
+        viewModel.enterDetailsState.observe(this,
             Observer<EnterDetailsViewState> { state ->
                 when (state) {
                     is EnterDetailsSuccess -> {
@@ -103,7 +112,7 @@ class EnterDetailsFragment : Fragment() {
         view.findViewById<Button>(R.id.next).setOnClickListener {
             val username = usernameEditText.text.toString()
             val password = passwordEditText.text.toString()
-            enterDetailsViewModel.validateInput(username, password)
+            viewModel.validateInput(username, password)
         }
     }
 }
