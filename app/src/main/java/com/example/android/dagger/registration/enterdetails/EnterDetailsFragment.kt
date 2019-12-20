@@ -55,6 +55,7 @@ class EnterDetailsFragment : Fragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
 
+
     private lateinit var errorTextView: TextView
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText

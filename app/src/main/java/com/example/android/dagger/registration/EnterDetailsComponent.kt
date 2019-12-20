@@ -1,10 +1,7 @@
 package com.example.android.dagger.registration
 
-import com.example.android.dagger.di.ActivityScope
 import com.example.android.dagger.di.FragmentScope
-import com.example.android.dagger.di.ViewModelModule
 import com.example.android.dagger.registration.enterdetails.EnterDetailsFragment
-import com.example.android.dagger.registration.termsandconditions.TermsAndConditionsFragment
 import dagger.Subcomponent
 
 @FragmentScope

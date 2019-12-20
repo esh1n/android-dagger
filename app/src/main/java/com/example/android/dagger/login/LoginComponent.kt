@@ -17,13 +17,14 @@
 package com.example.android.dagger.login
 
 import com.example.android.dagger.di.ActivityScope
+import com.example.android.dagger.di.LoginViewModules
 import dagger.Subcomponent
 
 // Scope annotation that the LoginComponent uses
 // Classes annotated with @ActivityScope will have a unique instance in this Component
 @ActivityScope
 // Definition of a Dagger subcomponent
-@Subcomponent
+@Subcomponent(modules = [LoginViewModules::class])
 interface LoginComponent {
 
     // Factory to create instances of LoginComponent

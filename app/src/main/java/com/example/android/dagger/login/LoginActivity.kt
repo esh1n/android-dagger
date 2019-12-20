@@ -25,6 +25,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.android.dagger.MyApplication
 import com.example.android.dagger.R
 import com.example.android.dagger.main.MainActivity
@@ -34,8 +36,11 @@ import javax.inject.Inject
 class LoginActivity : AppCompatActivity() {
 
     // @Inject annotated fields will be provided by Dagger
-    @Inject
+
     lateinit var loginViewModel: LoginViewModel
+
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var errorTextView: TextView
 
@@ -44,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
         // Creates an instance of Login component by grabbing the factory from the app graph
         // and injects this activity to that Component
         (application as MyApplication).appComponent.loginComponent().create().inject(this)
-
+        loginViewModel = ViewModelProviders.of(this,factory).get(LoginViewModel::class.java)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
